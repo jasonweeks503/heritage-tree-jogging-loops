@@ -1,1 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Portland Heritage Tree Jogging Loops</title>
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+body { margin:0 }
+#map { height:100vh }
+</style>
+</head>
+
+<body>
+
+<div id="map"></div>
+
+<script>
+
+var map = L.map('map').setView([45.52,-122.67],12)
+
+L.tileLayer(
+'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+{attribution:'© OpenStreetMap'}
+).addTo(map)
+
+var colors=[
+"#e41a1c","#377eb8","#4daf4a",
+"#984ea3","#ff7f00","#ffff33"
+]
+
+// Example loop route
+var loop1=[
+[45.540,-122.655],
+[45.538,-122.650],
+[45.535,-122.648],
+[45.536,-122.655],
+[45.540,-122.655]
+]
+
+L.polyline(loop1,{
+color:colors[0],
+weight:4
+}).addTo(map)
+
+// Example tree markers
+var trees=[
+{lat:45.538,lng:-122.652,name:"Heritage Tree 1",loop:0},
+{lat:45.536,lng:-122.651,name:"Heritage Tree 2",loop:0},
+{lat:45.537,lng:-122.649,name:"Heritage Tree 3",loop:0}
+]
+
+trees.forEach(t=>{
+
+L.circleMarker([t.lat,t.lng],{
+radius:6,
+color:colors[t.loop],
+fillOpacity:0.9
+})
+.addTo(map)
+.bindPopup("<b>"+t.name+"</b><br>Loop "+(t.loop+1))
+
+})
+
+</script>
+
+</body>
+</html>
